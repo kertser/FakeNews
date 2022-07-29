@@ -9,3 +9,4 @@ openpyxl
 # NLP engines and APIs:
 spacy
 textblob
+nltk
