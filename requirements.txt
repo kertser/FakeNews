@@ -6,3 +6,6 @@ plotly
 seaborn
 matplotlib
 openpyxl
+# NLP engines and APIs:
+spacy
+textblob
