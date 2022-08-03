@@ -2,7 +2,7 @@
 numpy
 pandas
 
-# Graphing:
+# Graphing: (this is for exploration)
 explainerdashboard
 plotly
 seaborn
@@ -10,6 +10,7 @@ matplotlib
 
 # Addons:
 openpyxl
+joblib
 
 # NLP engines and APIs:
 spacy
