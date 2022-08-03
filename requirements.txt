@@ -2,7 +2,7 @@
 numpy
 pandas
 
-# Graphing: (this is for exploration)
+# Graphing: (this is not for deployment)
 explainerdashboard
 plotly
 seaborn
@@ -10,12 +10,14 @@ matplotlib
 
 # Addons:
 openpyxl
-joblib
+joblib #loading model
 
 # NLP engines and APIs:
 spacy
 textblob
 nltk
 # Additional solutions (for AutoML):
-#markupsafe==2.0.1
 pycaret
+
+# Deploy
+nicegui
