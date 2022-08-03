@@ -1,12 +1,20 @@
+# General packages:
 numpy
 pandas
-pycaret
+
+# Graphing:
 explainerdashboard
 plotly
 seaborn
 matplotlib
+
+# Addons:
 openpyxl
+
 # NLP engines and APIs:
 spacy
 textblob
 nltk
+# Additional solutions (for AutoML):
+#markupsafe==2.0.1
+pycaret
