@@ -163,37 +163,43 @@ def detect():
     emLoad['Trust'] = testDF['Trust'][0]
     sumEmotions = sum(emLoad.values())
 
-    if sumEmotions == 0:
-        sumEmotions = 1
+    if sumEmotions != 0:
+        #table.visible = True
+        #chart.visible = True
 
-    chart.options.series[0].data[0]['y'] = emLoad['Anger']/sumEmotions * 100
-    chart.options.series[0].data[1]['y'] = emLoad['Anticipation']/sumEmotions * 100
-    chart.options.series[0].data[2]['y'] = emLoad['Disgust']/sumEmotions * 100
-    chart.options.series[0].data[3]['y'] = emLoad['Fear']/sumEmotions * 100
-    chart.options.series[0].data[4]['y'] = emLoad['Joy']/sumEmotions * 100
-    chart.options.series[0].data[5]['y'] = emLoad['Sadness']/sumEmotions * 100
-    chart.options.series[0].data[6]['y'] = emLoad['Surprise']/sumEmotions * 100
-    chart.options.series[0].data[7]['y'] = emLoad['Trust']/sumEmotions * 100
-    chart.update()
+        chart.options.series[0].data[0]['y'] = emLoad['Anger']/sumEmotions * 100
+        chart.options.series[0].data[1]['y'] = emLoad['Anticipation']/sumEmotions * 100
+        chart.options.series[0].data[2]['y'] = emLoad['Disgust']/sumEmotions * 100
+        chart.options.series[0].data[3]['y'] = emLoad['Fear']/sumEmotions * 100
+        chart.options.series[0].data[4]['y'] = emLoad['Joy']/sumEmotions * 100
+        chart.options.series[0].data[5]['y'] = emLoad['Sadness']/sumEmotions * 100
+        chart.options.series[0].data[6]['y'] = emLoad['Surprise']/sumEmotions * 100
+        chart.options.series[0].data[7]['y'] = emLoad['Trust']/sumEmotions * 100
+        chart.update()
 
-    table.options.rowData[0].value = str(round(emLoad['Anger']/sumEmotions * 100,1)) + '%'
-    table.options.rowData[1].value = str(round(emLoad['Anticipation'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[2].value = str(round(emLoad['Disgust'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[3].value = str(round(emLoad['Fear'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[4].value = str(round(emLoad['Joy'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[5].value = str(round(emLoad['Sadness'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[6].value = str(round(emLoad['Surprise'] / sumEmotions * 100,1)) + '%'
-    table.options.rowData[7].value = str(round(emLoad['Trust'] / sumEmotions * 100,1)) + '%'
-    table.update()
+        table.options.rowData[0].value = str(round(emLoad['Anger']/sumEmotions * 100,1)) + '%'
+        table.options.rowData[1].value = str(round(emLoad['Anticipation'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[2].value = str(round(emLoad['Disgust'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[3].value = str(round(emLoad['Fear'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[4].value = str(round(emLoad['Joy'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[5].value = str(round(emLoad['Sadness'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[6].value = str(round(emLoad['Surprise'] / sumEmotions * 100,1)) + '%'
+        table.options.rowData[7].value = str(round(emLoad['Trust'] / sumEmotions * 100,1)) + '%'
+        table.update()
 
-    classifier = model.predict(testDF.drop(['text'],axis=1).astype(float))[0]
+        classifier = model.predict(testDF.drop(['text'], axis=1).astype(float))[0]
+
+        if classifier == True:
+            ui.notify('The news sentence is probably True', close_button='OK', position='center')
+        else:
+            ui.notify('The news sentence is probably Fake', close_button='OK', position='center')
+
+    else:
+        #table.visible = False
+        #chart.visible = False
+        ui.notify('The data is insufficient', close_button='OK', position='center')
 
     ui.colors() # Reset colors
-
-    if classifier==True:
-        ui.notify('The news sentence is probably True',close_button='OK',position='center')
-    else:
-        ui.notify('The news sentence is probably Fake',close_button='OK',position='center')
 
 def clear():
    textInput.value=''
@@ -287,5 +293,5 @@ ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').cl
 if __name__ == "__main__":
     # Load the latest classifier:
     model = joblib.load("model.pkl")
-    ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
-    #ui.run(title='Fake-News Tested', reload=True, show=True)
+    #ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
+    ui.run(title='Fake-News Tested', reload=True, show=True)

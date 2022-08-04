@@ -16,7 +16,7 @@ joblib #loading model
 
 # NLP engines and APIs:
 textblob
-nltk
+#nltk
 
 # Additional solutions (for AutoML):
 #pycaret
