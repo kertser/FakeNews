@@ -1,3 +1,4 @@
 punkt
 wordnet
 brown
+omw-1.4
