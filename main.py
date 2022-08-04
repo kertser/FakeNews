@@ -18,6 +18,9 @@ emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/
 wordsData = pd.read_excel(config.wordsData_url, index_col=0)
 wordsData = wordsData[wordsData.columns.intersection(['English Word']+[emotion for emotion in Emotions])]
 
+# Load the latest classifier:
+model = joblib.load("model.pkl")
+
 #%% --- Feature Construction ---
 def feature_wordsCount(df_row, Sentence, df):
     # count the unique words in the Sentence and calculate the ratio
@@ -291,7 +294,5 @@ with ui.row().classes('no-wrap'):
 ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').classes('no-wrap')
 
 if __name__ == "__main__":
-    # Load the latest classifier:
-    model = joblib.load("model.pkl")
     #ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
     ui.run(title='Fake-News Tested', reload=True, show=True)
