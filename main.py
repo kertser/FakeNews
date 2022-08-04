@@ -14,6 +14,7 @@ import joblib
 
 import config
 Emotions = ['Anger','Anticipation','Disgust','Fear','Joy','Sadness','Surprise','Trust']
+emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/8,'Joy':100*1/8,'Sadness':100*1/8,'Surprise':100*1/8,'Trust':100*1/8}
 wordsData = pd.read_excel(config.wordsData_url, index_col=0)
 wordsData = wordsData[wordsData.columns.intersection(['English Word']+[emotion for emotion in Emotions])]
 
@@ -141,7 +142,8 @@ def construct_Features(indexRange,df,correct=True):
             correlation_and_entropy(row, Sentence, df)
         except:
             print(f'row #{row} contains some bugs, skipping')
-async def detect():
+def detect():
+    #ui.notify('Wait for the AI to finish the analysis', close_button='OK')
     ui.colors(primary='#555') # Make all gray
 
     testDF = pd.DataFrame(columns=['text', 'uniqe_words_ratio', 'nounPolarity', 'nounSubjectivity',
@@ -151,10 +153,41 @@ async def detect():
                                    'MaxSubjectivityFrequency', 'corrP', 'corrS', 'entropy'])
     testDF.at[0,'text'] = str(textInput.value)
     construct_Features(range(1),testDF,correct=True)
+
+    emLoad['Anger'] = testDF['Anger'][0]
+    emLoad['Anticipation'] = testDF['Anticipation'][0]
+    emLoad['Disgust'] = testDF['Disgust'][0]
+    emLoad['Fear'] = testDF['Fear'][0]
+    emLoad['Joy'] = testDF['Joy'][0]
+    emLoad['Sadness'] = testDF['Sadness'][0]
+    emLoad['Surprise'] = testDF['Surprise'][0]
+    emLoad['Trust'] = testDF['Trust'][0]
+    sumEmotions = sum(emLoad.values())
+
+    chart.options.series[0].data[0]['y'] = emLoad['Anger']/sumEmotions * 100
+    chart.options.series[0].data[1]['y'] = emLoad['Anticipation']/sumEmotions * 100
+    chart.options.series[0].data[2]['y'] = emLoad['Disgust']/sumEmotions * 100
+    chart.options.series[0].data[3]['y'] = emLoad['Fear']/sumEmotions * 100
+    chart.options.series[0].data[4]['y'] = emLoad['Joy']/sumEmotions * 100
+    chart.options.series[0].data[5]['y'] = emLoad['Sadness']/sumEmotions * 100
+    chart.options.series[0].data[6]['y'] = emLoad['Surprise']/sumEmotions * 100
+    chart.options.series[0].data[7]['y'] = emLoad['Trust']/sumEmotions * 100
+    chart.update()
+
+    table.options.rowData[0].value = str(round(emLoad['Anger']/sumEmotions * 100,1)) + '%'
+    table.options.rowData[1].value = str(round(emLoad['Anticipation'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[2].value = str(round(emLoad['Disgust'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[3].value = str(round(emLoad['Fear'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[4].value = str(round(emLoad['Joy'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[5].value = str(round(emLoad['Sadness'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[6].value = str(round(emLoad['Surprise'] / sumEmotions * 100,1)) + '%'
+    table.options.rowData[7].value = str(round(emLoad['Trust'] / sumEmotions * 100,1)) + '%'
+    table.update()
+
     classifier = model.predict(testDF.drop(['text'],axis=1).astype(float))[0]
-    print(classifier)
+
     ui.colors() # Reset colors
-    await dialog
+
     if classifier==True:
         ui.notify('The news sentence is probably True',close_button='OK',position='center')
     else:
@@ -167,37 +200,86 @@ def clear():
 ui.colors()
 
 # Main Window:
-with ui.row().classes('flex no-wrap'):
-    with ui.card().classes('bg-yellow-300 h-96'):
-        with ui.column().classes('w-full -my-5'):
+with ui.row().classes('no-wrap'):
+    with ui.card().classes('bg-yellow-300 h-80'):
+        with ui.column().classes('w-full -my-3'):
             ui.markdown('### Fake News Detector\nBy means of Emotional Analysis (just for lulz)').classes('self-start self-center')
             textInput = ui.input(
                 label='Input text and press EVALUATE to start',
                 placeholder='Let''s see whether it is Fake?',
-            ).classes('w-96 h-52 max-h-52').props('type=textarea outlined')
-            with ui.row().classes('w-full justify-between no-wrap'):
+            ).classes('w-96 max-h-52 -my-3').props('type=textarea outlined height=300px')
+            with ui.row().classes('w-full justify-between no-wrap place-self-end'):
                 ui.button('Evaluate', on_click=detect)
                 ui.button('Clear Text', on_click=clear)
-    with ui.card().classes('bg-yellow-300 w-56 no-wrap h-96'):
+
+    with ui.card().classes('bg-yellow-300 w-56 no-wrap h-80'):
         table = ui.table({
             'columnDefs': [
                 {'headerName': 'Emotion', 'field': 'emotion'},
                 {'headerName': 'Value', 'field': 'value'},
             ],
             'rowData': [
-                {'emotion': Emotions[0], 'value': 0},
-                {'emotion': Emotions[1], 'value': 0},
-                {'emotion': Emotions[2], 'value': 0},
-                {'emotion': Emotions[3], 'value': 0},
-                {'emotion': Emotions[4], 'value': 0},
-                {'emotion': Emotions[5], 'value': 0},
-                {'emotion': Emotions[6], 'value': 0},
-                {'emotion': Emotions[7], 'value': 0},
-                {'emotion': 'Polarity', 'value': 0},
-                {'emotion': 'Entropy', 'value': 0}
+                {'emotion': Emotions[0], 'value': '12.5%'},
+                {'emotion': Emotions[1], 'value': '12.5%'},
+                {'emotion': Emotions[2], 'value': '12.5%'},
+                {'emotion': Emotions[3], 'value': '12.5%'},
+                {'emotion': Emotions[4], 'value': '12.5%'},
+                {'emotion': Emotions[5], 'value': '12.5%'},
+                {'emotion': Emotions[6], 'value': '12.5%'},
+                {'emotion': Emotions[7], 'value': '12.5%'}
             ],
         }).classes('-my-3')
         table.options.__setattr__('suppressHorizontalScroll', True)
+    with ui.card().classes('bg-yellow-300 no-wrap h-80'):
+        ui.label('Emotional Chart of the Sentence:').classes('self-center')
+        chart = ui.chart({
+            'title': False,
+            'exporting': {'enabled': False},
+            'credits': {'enabled': False},
+            'chart': {'type': 'pie','height': 270},
+            'plotOptions': {
+                'pie': {
+                    'allowPointSelect': True,
+                    'cursor': 'pointer',
+                    'dataLabels': {
+                        'enabled': True,
+                        'format': '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            'tooltip': {
+                'pointFormat': '{series.data.name} <b>{point.percentage:.1f}%</b>'
+            },
+            'series': [{
+                'data':[{
+                        'name': Emotions[0],
+                        'y': emLoad[Emotions[0]],
+                        }, {
+                            'name': Emotions[1],
+                            'y': emLoad[Emotions[1]],
+                        }, {
+                            'name': Emotions[2],
+                            'y': emLoad[Emotions[2]]
+                        }, {
+                            'name': Emotions[3],
+                            'y': emLoad[Emotions[3]]
+                        }, {
+                            'name': Emotions[4],
+                            'y': emLoad[Emotions[4]]
+                        }, {
+                            'name': Emotions[5],
+                            'y': emLoad[Emotions[5]]
+                        }, {
+                            'name': Emotions[6],
+                            'y': emLoad[Emotions[6]]
+                        }, {
+                            'name': Emotions[7],
+                            'y': emLoad[Emotions[7]]
+                        }]
+
+            }],
+        }).classes('w-92')
+
 ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').classes('no-wrap')
 
 if __name__ == "__main__":

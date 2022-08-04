@@ -3,9 +3,9 @@ numpy
 pandas
 
 # Graphing: (this is not for deployment)
-explainerdashboard
-plotly
-seaborn
+#explainerdashboard
+#plotly
+#seaborn
 matplotlib
 
 # Addons:
@@ -13,11 +13,11 @@ openpyxl
 joblib #loading model
 
 # NLP engines and APIs:
-spacy
+#spacy
 textblob
 nltk
 # Additional solutions (for AutoML):
-pycaret
+#pycaret
 
 # Deploy
 nicegui
