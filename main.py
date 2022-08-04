@@ -152,7 +152,7 @@ def detect():
                                    'Fear', 'Joy', 'Sadness', 'Surprise', 'Trust', 'MaxPolarityFrequency',
                                    'MaxSubjectivityFrequency', 'corrP', 'corrS', 'entropy'])
     testDF.at[0,'text'] = str(textInput.value)
-    construct_Features(range(1),testDF,correct=True)
+    construct_Features(range(1),testDF,correct=False)
 
     emLoad['Anger'] = testDF['Anger'][0]
     emLoad['Anticipation'] = testDF['Anticipation'][0]
