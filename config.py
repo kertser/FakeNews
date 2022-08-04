@@ -4,3 +4,4 @@ false_url = 'Data/DataSet_FAKE.csv'
 
 emData_url = 'Data/Emotions/NRC-Emotion-Intensity-Lexicon-v1.txt'
 wordsData_url = 'Data/Emotions/NRC-Emotion-Lexicon-v0.92-InManyLanguages.xlsx'
+wordsData_git = 'NRC-Emotion-Lexicon-v0.92-InManyLanguages.xlsx'

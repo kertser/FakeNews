@@ -15,7 +15,8 @@ import joblib
 import config
 Emotions = ['Anger','Anticipation','Disgust','Fear','Joy','Sadness','Surprise','Trust']
 emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/8,'Joy':100*1/8,'Sadness':100*1/8,'Surprise':100*1/8,'Trust':100*1/8}
-wordsData = pd.read_excel(config.wordsData_url, index_col=0)
+#wordsData = pd.read_excel(config.wordsData_url, index_col=0)
+wordsData = pd.read_excel(config.wordsData_git, index_col=0)
 wordsData = wordsData[wordsData.columns.intersection(['English Word']+[emotion for emotion in Emotions])]
 
 
@@ -285,5 +286,5 @@ ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').cl
 if __name__ == "__main__":
     # Load the latest classifier:
     model = joblib.load("model.pkl")
-    ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
-    #ui.run(title='Fake-News Tested', reload=True, show=True)
+    #ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
+    ui.run(title='Fake-News Tested', reload=True, show=True)
