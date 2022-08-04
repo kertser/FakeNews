@@ -8,17 +8,18 @@ pandas
 #seaborn
 matplotlib
 scipy
+statistics
 
 # Addons:
 openpyxl
 joblib #loading model
 
 # NLP engines and APIs:
-#spacy
 textblob
-#nltk
+
 # Additional solutions (for AutoML):
 #pycaret
 
 # Deploy
 nicegui
+lightgbm

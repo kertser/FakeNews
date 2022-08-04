@@ -18,7 +18,6 @@ emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/
 wordsData = pd.read_excel(config.wordsData_url, index_col=0)
 wordsData = wordsData[wordsData.columns.intersection(['English Word']+[emotion for emotion in Emotions])]
 
-
 #%% --- Feature Construction ---
 def feature_wordsCount(df_row, Sentence, df):
     # count the unique words in the Sentence and calculate the ratio
@@ -152,7 +151,7 @@ def detect():
                                    'Fear', 'Joy', 'Sadness', 'Surprise', 'Trust', 'MaxPolarityFrequency',
                                    'MaxSubjectivityFrequency', 'corrP', 'corrS', 'entropy'])
     testDF.at[0,'text'] = str(textInput.value)
-    construct_Features(range(1),testDF,correct=False)
+    construct_Features(range(1),testDF,correct=True)
 
     emLoad['Anger'] = testDF['Anger'][0]
     emLoad['Anticipation'] = testDF['Anticipation'][0]
@@ -163,6 +162,9 @@ def detect():
     emLoad['Surprise'] = testDF['Surprise'][0]
     emLoad['Trust'] = testDF['Trust'][0]
     sumEmotions = sum(emLoad.values())
+
+    if sumEmotions == 0:
+        sumEmotions = 1
 
     chart.options.series[0].data[0]['y'] = emLoad['Anger']/sumEmotions * 100
     chart.options.series[0].data[1]['y'] = emLoad['Anticipation']/sumEmotions * 100
@@ -285,5 +287,5 @@ ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').cl
 if __name__ == "__main__":
     # Load the latest classifier:
     model = joblib.load("model.pkl")
-    #ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
-    ui.run(title='Fake-News Tested', reload=True, show=True)
+    ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
+    #ui.run(title='Fake-News Tested', reload=True, show=True)
