@@ -14,7 +14,7 @@ import joblib
 import config
 
 import nltk
-nltk.download()
+nltk.download('punkt')
 
 Emotions = ['Anger','Anticipation','Disgust','Fear','Joy','Sadness','Surprise','Trust']
 emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/8,'Joy':100*1/8,'Sadness':100*1/8,'Surprise':100*1/8,'Trust':100*1/8}
