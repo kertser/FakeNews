@@ -13,9 +13,6 @@ from scipy.stats import pearsonr,spearmanr
 import joblib
 import config
 
-#import nltk
-#nltk.download('punkt')
-
 Emotions = ['Anger','Anticipation','Disgust','Fear','Joy','Sadness','Surprise','Trust']
 emLoad = {'Anger':100*1/8,'Anticipation':100*1/8,'Disgust':100*1/8,'Fear':100*1/8,'Joy':100*1/8,'Sadness':100*1/8,'Surprise':100*1/8,'Trust':100*1/8}
 wordsData = pd.read_excel(config.wordsData_url, index_col=0)
@@ -214,37 +211,39 @@ def clear():
 ui.colors()
 
 # Main Window:
-with ui.row().classes('no-wrap'):
-    with ui.card().classes('bg-yellow-300 h-80'):
-        with ui.column().classes('w-full -my-3'):
-            ui.markdown('### Fake News Detector\nBy means of Emotional Analysis (just for lulz)').classes('self-start self-center')
-            textInput = ui.input(
-                label='Input text and press EVALUATE to start',
-                placeholder='Let''s see whether it is Fake?',
-            ).classes('w-96 max-h-52 -my-3').props('type=textarea outlined height=300px')
-            with ui.row().classes('w-full justify-between no-wrap place-self-end'):
-                ui.button('Evaluate', on_click=detect)
-                ui.button('Clear Text', on_click=clear)
+with ui.column().classes('no-warp'):
+    with ui.row().classes('no-wrap'):
+        with ui.card().classes('bg-yellow-300 h-80'):
+            with ui.column().classes('w-full -my-3'):
+                ui.markdown('### Fake News Detector\nBy means of Emotional Analysis (just for lulz)').classes('self-start self-center')
+                textInput = ui.input(
+                    label='Input text and press EVALUATE to start',
+                    placeholder='Let''s see whether it is Fake?',
+                ).classes('w-96 max-h-52 -my-3').props('type=textarea outlined height=300px')
+                with ui.row().classes('w-full justify-between no-wrap place-self-end'):
+                    ui.button('Evaluate', on_click=detect)
+                    ui.button('Clear Text', on_click=clear)
 
-    with ui.card().classes('bg-yellow-300 w-56 no-wrap h-80'):
-        table = ui.table({
-            'columnDefs': [
-                {'headerName': 'Emotion', 'field': 'emotion'},
-                {'headerName': 'Value', 'field': 'value'},
-            ],
-            'rowData': [
-                {'emotion': Emotions[0], 'value': '12.5%'},
-                {'emotion': Emotions[1], 'value': '12.5%'},
-                {'emotion': Emotions[2], 'value': '12.5%'},
-                {'emotion': Emotions[3], 'value': '12.5%'},
-                {'emotion': Emotions[4], 'value': '12.5%'},
-                {'emotion': Emotions[5], 'value': '12.5%'},
-                {'emotion': Emotions[6], 'value': '12.5%'},
-                {'emotion': Emotions[7], 'value': '12.5%'}
-            ],
-        }).classes('-my-3')
-        table.options.__setattr__('suppressHorizontalScroll', True)
-    with ui.card().classes('bg-yellow-300 no-wrap h-80'):
+        with ui.card().classes('bg-yellow-300 w-56 no-wrap h-80'):
+            table = ui.table({
+                'columnDefs': [
+                    {'headerName': 'Emotion', 'field': 'emotion'},
+                    {'headerName': 'Value', 'field': 'value'},
+                ],
+                'rowData': [
+                    {'emotion': Emotions[0], 'value': '12.5%'},
+                    {'emotion': Emotions[1], 'value': '12.5%'},
+                    {'emotion': Emotions[2], 'value': '12.5%'},
+                    {'emotion': Emotions[3], 'value': '12.5%'},
+                    {'emotion': Emotions[4], 'value': '12.5%'},
+                    {'emotion': Emotions[5], 'value': '12.5%'},
+                    {'emotion': Emotions[6], 'value': '12.5%'},
+                    {'emotion': Emotions[7], 'value': '12.5%'}
+                ],
+            }).classes('-my-3')
+            table.options.__setattr__('suppressHorizontalScroll', True)
+
+    with ui.card().classes('bg-yellow-300 no-wrap h-80 w-full'):
         ui.label('Emotional Chart of the Sentence:').classes('self-center')
         chart = ui.chart({
             'title': False,
@@ -292,9 +291,9 @@ with ui.row().classes('no-wrap'):
                         }]
 
             }],
-        }).classes('w-92')
+        })
 
-ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.01</strong></p>').classes('no-wrap')
+ui.html('<p>Alpha-Numerical, Mike Kertser, 2022, <strong>v0.02</strong></p>').classes('no-wrap')
 
 if __name__ == "__main__":
     #ui.run(title='Fake-News Tool', host='127.0.0.1', reload=False, show=True)
