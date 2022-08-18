@@ -19,7 +19,8 @@ wordsData = pd.read_excel(config.wordsData_url, index_col=0)
 wordsData = wordsData[wordsData.columns.intersection(['English Word']+[emotion for emotion in Emotions])]
 
 # Load the latest classifier:
-model = joblib.load("model.pkl")
+#model = joblib.load("model.pkl")
+model = joblib.load("model1a.pkl")
 
 #%% --- Feature Construction ---
 def feature_wordsCount(df_row, Sentence, df):
